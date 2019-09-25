@@ -49,7 +49,7 @@ public class RecordCorrelationIdFilter extends ZuulFilter {
             RequestContext ctx = RequestContext.getCurrentContext();
             String payload = IOUtils.toString(ctx.getRequest().getInputStream());
             DocumentContext documentContext = JsonPath.parse(payload);
-            String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPath());
+            String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPathRequest());
             correlationIdService.recordCorrelationId(correlationId);
         } catch (IOException e) {
             e.printStackTrace();

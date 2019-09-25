@@ -22,7 +22,7 @@ public class ResponseSynchronizationService {
 
     public void saveResponse(JsonNode response) {
         DocumentContext documentContext = JsonPath.parse(response.toString());
-        String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPath());
+        String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPathKafkaMessage());
         if(correlationIdService.checkIfCorrelationIdExists(correlationId))
             responseRepository.saveResponse(correlationId, response);
     }

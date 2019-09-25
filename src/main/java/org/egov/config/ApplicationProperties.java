@@ -20,8 +20,14 @@ public class ApplicationProperties {
     @Value("${kafka.bootstrap.server}")
     private String kafkaBootstrapServer;
 
-    @Value("${correlationid.jsonpath}")
-    private String correlationIdJsonPath;
+    @Value("${correlationid.jsonpath.request}")
+    private String correlationIdJsonPathRequest;
+
+    @Value("${correlationid.jsonpath.response}")
+    private String correlationIdJsonPathResponse;
+
+    @Value("${correlationid.jsonpath.kafka.message}")
+    private String correlationIdJsonPathKafkaMessage;
 
     @Value("${add.correlationid.enable}")
     private Boolean addCorrelationIdEnabled;

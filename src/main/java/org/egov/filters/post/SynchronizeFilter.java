@@ -52,7 +52,7 @@ public class SynchronizeFilter extends ZuulFilter {
             RequestContext ctx = RequestContext.getCurrentContext();
             String payload = IOUtils.toString(ctx.getRequest().getInputStream());
             DocumentContext documentContext = JsonPath.parse(payload);
-            String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPath());
+            String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPathResponse());
 
             JsonNode responseBody = responseSynchronizationService.getAsyncResponseForCorrelationId(correlationId);;
             String responseBodyString = responseBody.toString();
