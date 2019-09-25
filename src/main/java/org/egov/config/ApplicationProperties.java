@@ -35,7 +35,4 @@ public class ApplicationProperties {
     @Value("${poll.time.milliseconds}")
     private Long pollTime;
 
-    @Value("${request.timeout}")
-    private Long requestTimeout;
-
 }
