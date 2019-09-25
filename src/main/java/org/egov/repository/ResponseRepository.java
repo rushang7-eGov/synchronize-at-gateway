@@ -23,4 +23,8 @@ public class ResponseRepository {
         }
         return null;
     }
+
+    public void deleteResponse(String correaltionId) {
+        correlationIdToResponseMap.remove(correaltionId);
+    }
 }

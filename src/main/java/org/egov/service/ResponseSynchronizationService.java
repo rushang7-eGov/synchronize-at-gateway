@@ -15,14 +15,16 @@ public class ResponseSynchronizationService {
 
     @Autowired
     private ApplicationProperties applicationProperties;
-
+    @Autowired
+    private CorrelationIdService correlationIdService;
     @Autowired
     private ResponseRepository responseRepository;
 
     public void saveResponse(JsonNode response) {
         DocumentContext documentContext = JsonPath.parse(response.toString());
         String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPath());
-        responseRepository.saveResponse(correlationId, response);
+        if(correlationIdService.checkIfCorrelationIdExists(correlationId))
+            responseRepository.saveResponse(correlationId, response);
     }
 
     public JsonNode getAsyncResponseForCorrelationId(String correlationId) throws InterruptedException {
@@ -31,6 +33,8 @@ public class ResponseSynchronizationService {
             Thread.sleep(applicationProperties.getPollTime());
             response = responseRepository.getResponse(correlationId);
         }
+        responseRepository.deleteResponse(correlationId);
+        correlationIdService.deleteCorrelationId(correlationId);
         return response;
     }
 

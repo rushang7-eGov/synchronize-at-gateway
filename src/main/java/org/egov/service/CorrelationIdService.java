@@ -16,6 +16,14 @@ public class CorrelationIdService {
         correlationIdRepository.recordCorrelationId(correlationId);
     }
 
+    public boolean checkIfCorrelationIdExists(String correlationId) {
+        return correlationIdRepository.checkIfCorrelationIdExists(correlationId);
+    }
+
+    public void deleteCorrelationId(String correlationId) {
+        correlationIdRepository.deleteCorrelationId(correlationId);
+    }
+
     public String generateNewCorrelationId() {
         return UUID.randomUUID().toString();
     }
