@@ -18,16 +18,15 @@ import java.util.HashSet;
 public class SynchronizeFilter extends ZuulFilter {
 
     private ApplicationProperties applicationProperties;
-    private CorrelationIdService correlationIdService;
     private ResponseSynchronizationService responseSynchronizationService;
-
-    private HashSet<String> pathsToBeSynced;
+    private CorrelationIdService correlationIdService;
 
     public SynchronizeFilter(ApplicationProperties applicationProperties,
-                             ResponseSynchronizationService responseSynchronizationService) {
+                             ResponseSynchronizationService responseSynchronizationService,
+                             CorrelationIdService correlationIdService) {
         this.applicationProperties = applicationProperties;
         this.responseSynchronizationService = responseSynchronizationService;
-        pathsToBeSynced = new HashSet<>(Arrays.asList(applicationProperties.getPathsToBeSynced()));
+        this.correlationIdService = correlationIdService;
     }
 
     @Override
@@ -43,7 +42,7 @@ public class SynchronizeFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         String requestURI = RequestContext.getCurrentContext().getRequest().getRequestURI();
-        return pathsToBeSynced.contains(requestURI);
+        return applicationProperties.getPathsToBeSynced().contains(requestURI);
     }
 
     @Override
@@ -54,10 +53,14 @@ public class SynchronizeFilter extends ZuulFilter {
             DocumentContext documentContext = JsonPath.parse(payload);
             String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPathResponse());
 
-            JsonNode responseBody = responseSynchronizationService.getAsyncResponseForCorrelationId(correlationId);;
-            String responseBodyString = responseBody.toString();
-            ctx.setResponseBody(responseBodyString);
-
+            if(applicationProperties.getResponseCodesToBeSynced().contains(ctx.getResponseStatusCode())) {
+                JsonNode responseBody = responseSynchronizationService.getAsyncResponseForCorrelationId(correlationId);;
+                String responseBodyString = responseBody.toString();
+                ctx.setResponseBody(responseBodyString);
+            } else {
+                correlationIdService.deleteCorrelationId(correlationId);
+                ctx.setResponseBody(payload);
+            }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }

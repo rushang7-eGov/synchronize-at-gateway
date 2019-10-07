@@ -4,12 +4,17 @@ import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.List;
+
 @Getter
 @Configuration
 public class ApplicationProperties {
 
-    @Value("${paths.to.be.synced}")
-    private String[] pathsToBeSynced;
+    @Value("#{'${paths.to.be.synced}'.split(',')}")
+    private List<String> pathsToBeSynced;
+
+    @Value("#{'${response.codes.to.be.synced}'.split(',')}")
+    private List<Integer> responseCodesToBeSynced;
 
     @Value("${response.topics}")
     private String[] responseTopics;

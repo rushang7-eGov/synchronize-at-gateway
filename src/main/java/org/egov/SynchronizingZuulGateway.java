@@ -35,7 +35,7 @@ public class SynchronizingZuulGateway {
 
     @Bean
     public SynchronizeFilter synchronizeFilter() {
-        return new SynchronizeFilter(applicationProperties, responseSynchronizationService);
+        return new SynchronizeFilter(applicationProperties, responseSynchronizationService, correlationIdService);
     }
 
     public static void main(String args[]) {

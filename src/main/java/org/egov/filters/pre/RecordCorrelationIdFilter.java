@@ -10,8 +10,6 @@ import org.egov.config.ApplicationProperties;
 import org.egov.service.CorrelationIdService;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashSet;
 
 public class RecordCorrelationIdFilter extends ZuulFilter {
 
@@ -19,11 +17,8 @@ public class RecordCorrelationIdFilter extends ZuulFilter {
 
     private CorrelationIdService correlationIdService;
 
-    private HashSet<String> pathsToBeSynced;
-
     public RecordCorrelationIdFilter(ApplicationProperties applicationProperties, CorrelationIdService correlationIdService) {
         this.applicationProperties = applicationProperties;
-        this.pathsToBeSynced = new HashSet<>(Arrays.asList(applicationProperties.getPathsToBeSynced()));
         this.correlationIdService = correlationIdService;
     }
 
@@ -40,7 +35,7 @@ public class RecordCorrelationIdFilter extends ZuulFilter {
     @Override
     public boolean shouldFilter() {
         String requestURI = RequestContext.getCurrentContext().getRequest().getRequestURI();
-        return pathsToBeSynced.contains(requestURI);
+        return applicationProperties.getPathsToBeSynced().contains(requestURI);
     }
 
     @Override

@@ -20,6 +20,10 @@ public class CorrelationIdService {
         return correlationIdResponseRepository.checkIfCorrelationIdExists(correlationId);
     }
 
+    public void deleteCorrelationId(String correlationId) {
+        correlationIdResponseRepository.deleteResponse(correlationId);
+    }
+
     public String generateNewCorrelationId() {
         return UUID.randomUUID().toString();
     }
