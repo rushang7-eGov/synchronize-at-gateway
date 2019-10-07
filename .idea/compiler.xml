@@ -7,8 +7,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="zuul" />
-        <module name="samplezuulfilters" />
         <module name="synchronize-at-gateway" />
+        <module name="samplezuulfilters" />
       </profile>
     </annotationProcessing>
   </component>

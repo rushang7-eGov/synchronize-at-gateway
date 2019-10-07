@@ -1,4 +1,4 @@
-# Synchronize-at-Gateway
+1# Synchronize-at-Gateway
 
 This is a Zuul API Gateway application which can be used to make a an http request (which has some asynchrnous 
 process) synchronous. (Asynchrnous process involving transfer of messages using kafka topics.) 
@@ -27,8 +27,6 @@ pre-filter). This storage is polled from the post-filter. The wait time between 
 
 ### Enhancements:
 
-Currently all the correlationIds and responses are stored in an in-memmory HashMap and HashSet. Following files can 
-be modified to support storing the data in a database:
-1. CorrelationIdRepository.java
-2. ResponseRepository.java
+Currently all the correlationIds and responses are stored in an in-memmory HashMap and HashSet. CorrelationIdResponseRepository.java can 
+be modified to support storing this data in cache, database, etc. 
 
