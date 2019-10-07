@@ -1,4 +1,4 @@
-1# Synchronize-at-Gateway
+# Synchronize-at-Gateway
 
 This is a Zuul API Gateway application which can be used to make a an http request (which has some asynchrnous 
 process) synchronous. (Asynchrnous process involving transfer of messages using kafka topics.) 
