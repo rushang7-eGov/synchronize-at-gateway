@@ -49,7 +49,7 @@ public class SynchronizeFilter extends ZuulFilter {
     public Object run() throws ZuulException {
         try {
             RequestContext ctx = RequestContext.getCurrentContext();
-            String payload = IOUtils.toString(ctx.getRequest().getInputStream());
+            String payload = IOUtils.toString(ctx.getResponseDataStream());
             DocumentContext documentContext = JsonPath.parse(payload);
             String correlationId = documentContext.read(applicationProperties.getCorrelationIdJsonPathResponse());
 
